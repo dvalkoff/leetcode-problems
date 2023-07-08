@@ -1,7 +1,5 @@
 package best.interview.questions.easy;
 
-import org.jetbrains.annotations.NotNull;
-
 public class ExcelSheetColumnNumber {
     public static void main(String[] args) {
         var columnNumber = new ExcelSheetColumnNumber();
@@ -10,7 +8,7 @@ public class ExcelSheetColumnNumber {
         System.out.println(columnNumber.titleToNumber("BB"));
     }
 
-    public int titleToNumber(@NotNull String columnTitle) {
+    public int titleToNumber(String columnTitle) {
         int alphabetLength = 26, sum = 0;
         char charBeforeA = 'A' - 1;
 

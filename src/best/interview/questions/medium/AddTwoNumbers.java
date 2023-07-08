@@ -36,29 +36,51 @@ public class AddTwoNumbers {
     }
 
     public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        long sum = addAll(addAll(0, l1), l2);
+        ListNode firstNode = null;
+        ListNode previousNode = null;
 
+        int overflow = 0;
+        while (l1 != null && l2 != null) {
+            ListNode nextNode = new ListNode();
 
-        ListNode parent = new ListNode((int) (sum % 10));
-        ListNode previous = parent;
-        while (sum / 10 != 0) {
-            sum /= 10;
-            ListNode listNode = new ListNode((int) (sum % 10));
-            previous.next = listNode;
-            previous = listNode;
+            int sum = l1.val + l2.val + overflow;
+            nextNode.val = sum % 10;
+            overflow = sum / 10;
+
+            l1 = l1.next;
+            l2 = l2.next;
+
+            if (previousNode == null) {
+                firstNode = nextNode;
+            } else {
+                previousNode.next = nextNode;
+            }
+            previousNode = nextNode;
         }
 
-        return parent;
-    }
+        for (ListNode l : new ListNode[] {l1, l2}) {
+            while (l != null) {
+                ListNode nextNode = new ListNode();
+                int sum = l.val + overflow;
+                nextNode.val = sum % 10;
+                overflow = sum / 10;
+                l = l.next;
 
-    private static long addAll(long sum, ListNode listNode) {
-        long multiplexer = 1;
-        while (listNode != null) {
-            sum += listNode.val * multiplexer;
-            multiplexer *= 10;
-            listNode = listNode.next;
+                previousNode.next = nextNode;
+                previousNode = nextNode;
+            }
         }
-        return sum;
+
+        while (overflow != 0) {
+            ListNode nextNode = new ListNode();
+            nextNode.val = overflow % 10;
+            overflow = overflow / 10;
+
+            previousNode.next = nextNode;
+            previousNode = nextNode;
+        }
+
+        return firstNode;
     }
 
     public static class ListNode {
